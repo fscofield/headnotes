@@ -10,9 +10,16 @@ def index(request):
     document = Document.objects.all()[0]
     annotations = Annotation.objects.filter(document=document)
     
-    t = loader.get_template('document.html')
+    t = loader.get_template('index.html')
     c = Context({
-        'document' : document,
-        'annotations' : annotations,
+    	'document': document,
+        })
+    return HttpResponse(t.render(c))
+
+
+
+def test(request):
+    t = loader.get_template('test.html')
+    c = Context({
         })
     return HttpResponse(t.render(c))

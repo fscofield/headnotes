@@ -1,65 +1,214 @@
-$(document).ready( function() {
+(function ($) {
 
 	// define Annotation as a Backbone Model Object
-	Annotation = Backbone.Model.extend({
-		
-		initialize: function(attributes, options) {
-			console.log(arguments, attributes, this.attributes);
-		}
-
+	var Annotation = Backbone.Model.extend({ 
+		sync: function () { return false; },
+		removed: false,
+		completed: false
 	});
 
-	// define AnnotationList as a Backbone Collection Object
-	AnnotationList = Backbone.Collection.extend({
+	//define a collection to store Annotation Models
+	var AnnotationCollection = Backbone.Collection.extend({
 		model: Annotation
 	});
 
-	annotations = new AnnotationList;
+	// define a router to store annotations object
+	var annColl = new AnnotationCollection();
+
+
+	var AnnotationEntryForm = Backbone.View.extend({
+		el: $('.annotation-entry'),
+
+		textarea: $('.annotations-entry textarea'),
+
+		events: {
+			'click .annotation-submit': 'submit',
+			'click .annotation-cancel': 'cancel'
+		},
+
+		initialize: function(){
+			_.bindAll(this, 'submit', 'cancel');
+		},
+
+		submit: function() {
+
+			$(this.el).hide();
+			$('.annotations').show();
+			alert(this.textarea.text());
+			this.model.set({text: this.textarea.val(), completed: true});
+			alert(this.model.text);
+			this.textarea.val('');
+			this.model = null;
+			
+		},
+
+		cancel: function() {
+			$(this.el).hide();
+			$('.annotations').show();
+			this.textarea.val('');
+			this.model.set({removed:true});
+		}
+	});
+	// define window object, allowing resetting of annotation entry inside other functions
+	EntryForm = new AnnotationEntryForm;
 
 
 
+	var AnnotationView = Backbone.View.extend({
 
-	// collect text on document mouseup event
-	$(".document").on("mouseup", function(e){
-		
-		var sel = document.getSelection();
-		var rangeObj = sel.getRangeAt(0);
+		tagName: 'li',
+
+		events: {
+			'click .delete': 'remove'
+		},
+
+		initialize: function(){
+      		_.bindAll(this, 'render', 'remove', 'complete');
+      		this.model.bind('change:removed', this.remove);
+      		this.model.bind('change:completed', this.complete);
+  		},
+
+  		render: function() {
+  			$(this.el).html('<li>'+this.model.get('text')+'<button class="btn delete">Delete</button></li>');
+  			return this;
+  		},
+
+  		complete: function() {
+  			this.model.bind('change', this.render);
+  			this.render();
+  		},
 
 
-		if (!rangeObj.collapsed) {
-			var respText = prompt("Annotate this please :)");
-
-			var annotation = new Annotation({
-				selection: sel,
-				text: respText,
-				rangeObj: rangeObj,
-			});
-
-			// add new annotation object to a Collection
-			annotations.add([annotation]);
-
-			// There must be a better way to append html... is there an easy templating solution to this? 
-			$(".annotations-list").append("<li class=\"annotation\" id=\""+annotation.cid+"\">"+respText+"</li>");
-			$("#"+annotation.cid).bind("mouseover", displayAnnotation);
-		};
+  		remove: function(){
+  			$(this.el).remove();
+  			this.model.set({removed: true});   		
+    	}
 	});
 
-	function displayAnnotation() {
-		console.log(this.id);
-		var annotation = annotations.get(this.id);
-		console.log(annotation.attributes.rangeObj)
-	}
+	// define a view for the right side Annotation List
+	var AnnotationListView = Backbone.View.extend({
 
-	function wrapText(elementId, openTag, closeTag){
+		el: $('.annotations-list'),
+
+		events: {
+			
+		},
+
+
+		initialize: function(){
+      		_.bindAll(this, 'render', 'appendAnnotation');
+      		this.collection = annColl;
+      		this.collection.bind('add', this.appendAnnotation);
+			this.render();
+    	},
+
+
+    	render: function(){
+    		$(this.el).append('<li>Hello World</li>');
+    		return this;
+    	},
+
+
+    	appendAnnotation: function(annotation){
+    		var annotationView = new AnnotationView({
+    			model: annotation
+    		})
+    		// view is actually rendered via the newly created annotationView
+    		$(this.el).append(annotationView.render().el);
+    	}
+	});
+
+	var listview = new AnnotationListView();
+
+	var SelectionView = Backbone.View.extend({
+		tagName: 'span',
+
+		events: {
+			// "click" : "showAnnotation",
+			// "mouseoff": "hideAnnotation"
+		},
+
+		initialize: function(){
+			this.completed = false;
+      		_.bindAll(this, 'render', 'remove', 'unrender');
+      		this.model.bind('change:removed', this.unrender);
+      		this.render();
+  		},
+
+  		render: function(){
+  			// injects a highlighted span into the document, which marks the annotation selection
+			var range = this.model.get('rangeObj');
+			var spanWrap = document.createElement('span');
+			spanWrap.className = 'selection';
+			range.surroundContents(spanWrap);
+			this.el = spanWrap;
+  		},
+
+  		unrender: function(){
+  			$(this.el).replaceWith($(this.el).html());
+  			this.model.destroy();
+  		},
+
+	});
+
+	var DocumentView = Backbone.View.extend({
 		
-	}
+		el: $('.doc-text'),
 
-	$(".annotation").on("mouseover", displayAnnotation);
+		events: {
+			'mouseup': 'collectText',
+		},
+
+		initialize: function(){
+		    _.bindAll(this, 'render', 'collectText'); 
+      		this.collection = annColl;
+      		this.render();
+    	},
+
+    	render: function(){
+    		$(this.el).append('<p>hello world</p>');
+
+    	},
+
+		collectText: function() {
+			var sel = document.getSelection();
+			var rangeObj = sel.getRangeAt(0);
+
+			// only creates an annotation object if text selection length > 1
+			if (!rangeObj.collapsed) {
+				var resp = confirm('Annotate this text?')
+				
+				// only adds annotation if resp is true.
+				if (resp) {
+
+					$('.annotations').hide();
+					$('.annotation-entry').show();
+
+					var annotation = new Annotation({
+						selection: sel,
+						text: null,
+						rangeObj: rangeObj,
+					});
+
+					EntryForm.model = annotation;
+
+					var selection = new SelectionView({
+						model: annotation
+					});
+
+					// add new annotation object to a Collection
+					this.collection.add(annotation);
+
+				}
+			} 
+		},
 
 
+	});
 
+	var docview = new DocumentView;
 
-});
+})(jQuery);
 
 
 

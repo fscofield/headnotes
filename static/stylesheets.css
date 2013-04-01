@@ -1,5 +1,28 @@
 .annotations {
 	float: right;
+	width: 25%;
 }
 
-.document
+.doc {
+	width: 65%;
+	float: left;
+}
+
+.annotation-entry {
+	float: right;
+	width: 25%;
+	display: none;
+}
+
+.annotation-entry textarea {
+	rows: 15;
+	cols: 15;
+}
+
+.annotation-submit {
+	margin-right: 10px;
+}
+
+.selection {
+	background-color: rgb(144, 144, 144);
+}

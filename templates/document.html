@@ -2,16 +2,5 @@
 
 
 {% block document %}
-<h3>{{document.name}}</h3>
-  <div class="document">
-    {{document.text}}
-  </div>
-  <div class="annotations">
-  	<h3>Annotations</h3>
-  	<ul class="annotations-list">
-      {% for annotation in annotations %}
-      <li class="annotation"> {{annotation.text}}</li>
-      {% endfor %}
-    </ul>
-  </div>	
+
  {% endblock document %}
