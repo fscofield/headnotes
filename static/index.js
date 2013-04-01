@@ -19,7 +19,7 @@
 	var AnnotationEntryForm = Backbone.View.extend({
 		el: $('.annotation-entry'),
 
-		textarea: $('.annotations-entry textarea'),
+		textarea: $('.annotations-entry#textbox'),
 
 		events: {
 			'click .annotation-submit': 'submit',
@@ -34,10 +34,8 @@
 
 			$(this.el).hide();
 			$('.annotations').show();
-			alert(this.textarea.text());
-			this.model.set({text: this.textarea.val(), completed: true});
-			alert(this.model.text);
-			this.textarea.val('');
+			this.model.set({text: $('#textbox').val(), completed: true});
+			$('#textbox').val('');
 			this.model = null;
 			
 		},
