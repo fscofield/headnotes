@@ -15,7 +15,6 @@
 	// define a router to store annotations object
 	var annColl = new AnnotationCollection();
 
-
 	var AnnotationEntryForm = Backbone.View.extend({
 		el: $('.annotation-entry'),
 
@@ -50,8 +49,6 @@
 	// define window object, allowing resetting of annotation entry inside other functions
 	EntryForm = new AnnotationEntryForm;
 
-
-
 	var AnnotationView = Backbone.View.extend({
 
 		tagName: 'li',
@@ -76,7 +73,6 @@
   			this.render();
   		},
 
-
   		remove: function(){
   			$(this.el).remove();
   			this.model.set({removed: true});   		
@@ -92,7 +88,6 @@
 			
 		},
 
-
 		initialize: function(){
       		_.bindAll(this, 'render', 'appendAnnotation');
       		this.collection = annColl;
@@ -100,9 +95,7 @@
 			this.render();
     	},
 
-
     	render: function(){
-    		$(this.el).append('<li>Hello World</li>');
     		return this;
     	},
 
@@ -160,11 +153,9 @@
 		initialize: function(){
 		    _.bindAll(this, 'render', 'collectText'); 
       		this.collection = annColl;
-      		this.render();
     	},
 
     	render: function(){
-    		$(this.el).append('<p>hello world</p>');
 
     	},
 
