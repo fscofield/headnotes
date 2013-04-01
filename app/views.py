@@ -17,7 +17,6 @@ def index(request):
     return HttpResponse(t.render(c))
 
 
-
 def test(request):
     t = loader.get_template('test.html')
     c = Context({
