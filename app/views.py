@@ -17,8 +17,14 @@ def index(request):
     return HttpResponse(t.render(c))
 
 
-def test(request):
+def add_annotation(request):
+    if request.method == "GET":
+        Annotation(
+            request.GET['text'])
+        feed = Feed.objects.get(rss_url=request.GET['text'])
+        articles = Article.objects.filter(feed=feed)
+
     t = loader.get_template('test.html')
     c = Context({
         })
-    return HttpResponse(t.render(c))
+    return HttpResponse()

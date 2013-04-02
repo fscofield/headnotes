@@ -8,6 +8,7 @@
 	float: left;
 }
 
+
 .annotation-entry {
 	float: right;
 	width: 25%;
@@ -23,8 +24,12 @@
 	margin-right: 10px;
 }
 
+.delete {
+	margin-left: 10px;
+}
+
 .selection {
-	/*color: rgb(150, 214, 42);*/
+	background-color: rgb(180, 180, 180);
 }
 
 .selection:hover {

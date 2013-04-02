@@ -4,6 +4,6 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
 	url(r'^admin/', include(admin.site.urls)),
-	url(r'^test/$', 'app.views.test'),
+	url(r'^annotation/add/', 'app.views.add_annotation'),
 	url(r'', 'app.views.index'),
 )
