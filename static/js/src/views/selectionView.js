@@ -12,18 +12,18 @@ var SelectionView = Backbone.View.extend({
     		this.render();
 		},
 
-		render: function(){
-			// injects a highlighted span into the document, which marks the annotation selection
-		var range = this.model.get('rangeObj');
-		var spanWrap = document.createElement('span');
-		spanWrap.className = 'selection';
-		range.surroundContents(spanWrap);
-		this.el = spanWrap;
-		},
+	render: function(){
+		// injects a highlighted span into the document, which marks the annotation selection
+	var range = this.model.get('rangeObj');
+	var spanWrap = document.createElement('span');
+	spanWrap.className = 'selection';
+	range.surroundContents(spanWrap);
+	this.el = spanWrap;
+	},
 
-		unrender: function(){
-			//removes the wrapping span from the doc-text
-			$(this.el).replaceWith($(this.el).html());
-			this.model.destroy();
-		}
+	unrender: function(){
+		//removes the wrapping span from the doc-text
+		$(this.el).replaceWith($(this.el).html());
+		this.model.destroy();
+	}
 });

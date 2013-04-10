@@ -23,32 +23,29 @@ var DocumentView = Backbone.View.extend({
 
 		// only creates an annotation object if user's text selection length > 1
 		if (!rangeObj.collapsed) {
-			var resp = confirm('Annotate this text?');
 
-			if (resp) {
-				$('.annotations').hide();
-				$('.annotation-entry').show();
+			$('.annotations').hide();
+			$('.annotation-entry').show();
 
-				// create Annotation model
-				var annotation = new Annotation({
-					selection: sel,
-					text: null,
-					rangeObj: rangeObj,
-					startOffset: rangeObj.startOffset,
-					endOffset: rangeObj.endOffset,
-				});
+			// create Annotation model
+			var annotation = new Annotation({
+				selection: sel,
+				text: null,
+				rangeObj: rangeObj,
+				startOffset: rangeObj.startOffset,
+				endOffset: rangeObj.endOffset,
+			});
 
-				// make EntryForm view's model temporarily the current annotation
-				// since this is accessed inside the collect text function, it has to be global... right?
-				EntryForm.model = annotation;
+			// make EntryForm view's model temporarily the current annotation
+			// since this is accessed inside the collect text function, it has to be global... right?
+			EntryForm.model = annotation;
 
-				// create a new text selection view to be added to the document
-				var selection = new SelectionView({
-					model: annotation
-				});
-				// add new annotation object to a Collection
-				this.collection.add(annotation);
-			}
+			// create a new text selection view to be added to the document
+			var selection = new SelectionView({
+				model: annotation
+			});
+			// add new annotation object to a Collection
+			this.collection.add(annotation);
 		} 
 	},
 });
