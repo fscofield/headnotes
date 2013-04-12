@@ -35,3 +35,5 @@ var AnnotationView = Backbone.View.extend({
 
     	}
 	});
+
+/// set up is valid 

@@ -28,28 +28,34 @@
       </div>
     </div>
     <div class="annotation-entry">
-      <h4>Create a new Annotation</h4>
-      <textarea rows="7" cols="15" id="textbox"></textarea>
-      <button class="btn annotation-submit">Submit</button>
-      <button class="btn annotation-cancel">Cancel</button>
     </div>
     <div class="annotations">
       <h3>Annotations</h3>
+      <p>Highlight anywhere to create an annotation</p>
       <ul class="annotations-list">
       </ul>
     </div>  
   </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
-    <script src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
-    <script src="http://ajax.cdnjs.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
-    <script src="http://ajax.cdnjs.com/ajax/libs/backbone.js/1.0.0/backbone-min.js"></script>
-    <script src="/static/js/src/models/annotationModel.js" type="text/javascript"></script>
-    <script src="/static/js/src/collections/annotationCollection.js" type="text/javascript"></script>
-    <script src="/static/js/src/views/annotationEntryForm.js" type="text/javascript"></script>
-    <script src="/static/js/src/views/annotationView.js" type="text/javascript"></script>
-    <script src="/static/js/src/views/annotationListView.js" type="text/javascript"></script>
-    <script src="/static/js/src/views/documentView.js" type="text/javascript"></script>
-    <script src="/static/js/src/views/selectionView.js" type="text/javascript"></script>
-    <script src="/static/js/src/index.js" type="text/javascript"></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+  <script src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+  <script src="http://ajax.cdnjs.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
+  <script src="http://ajax.cdnjs.com/ajax/libs/backbone.js/1.0.0/backbone-min.js"></script>
+  <script src="/static/js/src/models/annotationModel.js" type="text/javascript"></script>
+  <script src="/static/js/src/collections/annotationCollection.js" type="text/javascript"></script>
+  <script src="/static/js/src/views/annotationEntryForm.js" type="text/javascript"></script>
+  <script src="/static/js/src/views/annotationView.js" type="text/javascript"></script>
+  <script src="/static/js/src/views/annotationListView.js" type="text/javascript"></script>
+  <script src="/static/js/src/views/documentView.js" type="text/javascript"></script>
+  <script src="/static/js/src/views/selectionView.js" type="text/javascript"></script>
+
+  <script type="text/javascript">
+    var hn = hn || {};
+    (function ($) {
+      hn.collection = new AnnotationCollection();
+      hn.listView = new AnnotationListView({collection: hn.annColl});
+      hn.docView = new DocumentView({collection: hn.annColl});
+    })(jQuery);
+  </script>
   </body>
 </html>

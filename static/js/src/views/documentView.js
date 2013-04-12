@@ -4,7 +4,7 @@ var DocumentView = Backbone.View.extend({
 	el: $('.doc-text'),
 
 	events: {
-		'mouseup': 'collectText',
+		'mouseup': 'createAnnotation',
 	},
 
 	initialize: function(options){
@@ -13,19 +13,16 @@ var DocumentView = Backbone.View.extend({
 	    _.extend(this, options);
 	},
 
-	collectText: function() {
+	createAnnotation: function() {
 		/* triggered when a user highlights text on the displayed document
 		It creates a new selection view and annotation model and adds it to the collection */
 
 		// obtain user's text selection
-		var sel = document.getSelection();
-		var rangeObj = sel.getRangeAt(0);
+		var selection = document.getSelection();
+		var rangeObj = selection.getRangeAt(0);
 
 		// only creates an annotation object if user's text selection length > 1
 		if (!rangeObj.collapsed) {
-
-			$('.annotations').hide();
-			$('.annotation-entry').show();
 
 			// create Annotation model
 			var annotation = new Annotation({
@@ -35,17 +32,13 @@ var DocumentView = Backbone.View.extend({
 				startOffset: rangeObj.startOffset,
 				endOffset: rangeObj.endOffset,
 			});
-
 			// make EntryForm view's model temporarily the current annotation
-			// since this is accessed inside the collect text function, it has to be global... right?
-			EntryForm.model = annotation;
+			hn.entryForm = new entryForm({model: annotation});
 
-			// create a new text selection view to be added to the document
-			var selection = new SelectionView({
-				model: annotation
-			});
-			// add new annotation object to a Collection
-			this.collection.add(annotation);
+			// // create a new text selection view to be added to the document
+			// var selection = new SelectionView({
+			// 	model: annotation
+			// });
 		} 
 	},
 });
