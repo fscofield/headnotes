@@ -27,7 +27,7 @@ var AnnotationListView = Backbone.View.extend({
   },
 
   deleteAnnotation: function(e){
-    var id = e.currentTarget.id.slice(-2)
+    var id = e.currentTarget.id.split('-')[1]
     var model = this.collection.get(id);
     model.destroy();
   },
