@@ -30,19 +30,16 @@ var AnnotationEntryForm = Backbone.View.extend({
 		this.model.save({},
 			{
 				success: function(model, response){
-					console.log("success!");
 					hn.annotations.add(model);
 				}
 			});
 		this.close();
 	},
-
 	cancel: function(){
 		//pulls the highlighted span from the document
 		$('.uncomplete').contents().unwrap();
 		this.close();
 	},
-
 	close: function() {
 		this.$el
 		  .html("")
@@ -51,8 +48,4 @@ var AnnotationEntryForm = Backbone.View.extend({
 		
 		this.undelegateEvents();
 	},
-
-
-/// completed -- probably isnt necessary 
-/// 
 });
