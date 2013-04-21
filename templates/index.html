@@ -30,6 +30,7 @@
       <h3>Annotations</h3>
       <p>Highlight anywhere to create an annotation</p>
       <ul class="annotations-list">
+        {{test}}
       </ul>
     </div>  
     <div class="annotation-entry">
@@ -53,9 +54,9 @@
     (function ($) {
       
       hn.docModel = new Doc({id: 1});
-      hn.annotations = new AnnotationCollection({
-        id: 1
-      });
+      hn.annotations = new AnnotationCollection({});
+      //creates new annotations collection from tempalted json data
+      hn.annotations.reset({{annotations|safe}});
       hn.listView = new AnnotationListView({collection: hn.annotations});
       hn.docView = new DocumentView({collection: hn.annotations, model: hn.docModel});
     })(jQuery);

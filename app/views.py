@@ -3,6 +3,7 @@ from os import system
 from django.shortcuts import render_to_response, HttpResponse, get_object_or_404, redirect, render
 from django.views.decorators.csrf import requires_csrf_token, ensure_csrf_cookie, csrf_protect
 from django.template import Context, loader
+from django.core import serializers
 # project modules
 from app.models import *
 import json
@@ -11,7 +12,15 @@ import json
 def index(request):
     
     t = loader.get_template('index.html')
+    annotations = Annotation.objects.filter(doc_id=1)
+    resp_data = []
+    for annotation in annotations:
+        resp_data.append({
+            '_id' : annotation.id,
+            'text': annotation.text,
+            })
     c = Context({
+            'annotations' : json.dumps(resp_data),
         })
     return HttpResponse(t.render(c))
 
@@ -35,7 +44,7 @@ def documentApi(request, document_id):
 def collectionApi(request, collection_id):
     print "hello!"
     if request.method == "PUT":
-        annotations = Annotation.objects.get(collection_id=collection_id)
+        annotations = Annotation.objects.filter(doc_id=collection_id)
         return HttpResponse()
     elif request.method == "GET":
         annotations = Annotation.objects.filter(doc_id=collection_id)
@@ -58,7 +67,7 @@ def annotationApi(request, annotation_id = None):
             )
         new_annotation.save()
         response_data = {
-            'id' : new_annotation.id,
+            '_id' : new_annotation.id,
         }
         return HttpResponse(json.dumps(response_data), content_type="application/json")
 

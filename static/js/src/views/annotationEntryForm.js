@@ -30,7 +30,7 @@ var AnnotationEntryForm = Backbone.View.extend({
 		this.model.save({},
 			{
 				success: function(model, response){
-					console.log("success");
+					console.log("success!");
 					hn.annotations.add(model);
 				}
 			});

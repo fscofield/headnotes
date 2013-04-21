@@ -11,17 +11,17 @@ var AnnotationListView = Backbone.View.extend({
       _.extend(this, options);
   		_.bindAll(this, 'render', 'deleteAnnotation');
       this.listenTo(this.collection,'add', this.render);
-      // this.listenTo(this.collection,'remove', this.collection.sync);
       this.collection.bind('remove', this.render);
-      this.collection.fetch();
+      this.render();
   },
   render: function(){
     var self = this;
     self.$el.html('');
     _.each(this.collection.models, function(el, i){
+        var aid = el.id || el.get('id');
         self.$el.append( // what is this here?
           '<li class="annotation"><span>'+el.get('text')+'</span>'
-          +'<button class="btn delete" id="delete-'+el.get('_id')+'" style="margin-left: 10px;">'
+          +'<button class="btn delete" id="delete-'+aid+'" style="margin-left: 10px;">'
           +'<i class="icon-trash"></i></button></li>');
     });
   },

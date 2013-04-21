@@ -10,8 +10,12 @@ var DocumentView = Backbone.View.extend({
 	initialize: function(options){
 		_.extend(this, options);
 	    _.bindAll(this, 'createAnnotation', 'render', 'save', 'removeAnnotation', 'insertAnnotation');
-	   	// this.collection.on('remove', this.removeAnnotation, this);
-	    this.listenTo(this.collection, 'add', this.insertAnnotation);
+	   	// this.listenTo(this.collection, 'remove', this.removeAnnotation);
+	   	this.collection.on('add', this.insertAnnotation, this);
+	   	this.collection.on('remove', this.removeAnnotation, this);
+	   	console.log(this.collection);
+
+	    // this.listenTo(this.collection, 'add', this.insertAnnotation);
 	    this.listenTo(this.model,'change', this.render);
 	    this.model.fetch();
 
@@ -49,18 +53,16 @@ var DocumentView = Backbone.View.extend({
 		} 
 	},
 	removeAnnotation: function(e){
-		if (!e.id){
-			annotationClass = '.annotation-'+e.attributes.id
-			annotationSpan = $(annotationClass);
-			annotationSpan.replaceWith(annotationSpan.html());
-			this.save();
-		}
+		console.log(e);
+		annotationClass = '.annotation-'+e.attributes.id
+		annotationSpan = $(annotationClass);
+		annotationSpan.replaceWith(annotationSpan.html());
+		this.save();
 	},
 	insertAnnotation: function(e) {
-		if (!e.id){
-			$('.uncomplete')[0].className = 'selection annotation-'+e.attributes.id;
-			this.save();
-		}
+		console.log(e);
+		$('.uncomplete')[0].className = 'selection annotation-'+e.attributes.id;
+		this.save();
 	},
 
 	save: function(e) {
