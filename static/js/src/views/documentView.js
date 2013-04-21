@@ -8,9 +8,18 @@ var DocumentView = Backbone.View.extend({
 	},
 
 	initialize: function(options){
-	    _.bindAll(this, 'collectText');
-	    // this view uses the same collection as the AnnotationList view above 
-	    _.extend(this, options);
+		_.extend(this, options);
+	    _.bindAll(this, 'createAnnotation', 'render', 'save', 'removeAnnotation', 'insertAnnotation');
+	   	// this.collection.on('remove', this.removeAnnotation, this);
+	    this.listenTo(this.collection, 'add', this.insertAnnotation);
+	    this.listenTo(this.model,'change', this.render);
+	    this.model.fetch();
+
+	},
+
+
+	render: function(){
+		this.$el.html(this.model.get('html'));
 	},
 
 	createAnnotation: function() {
@@ -18,27 +27,46 @@ var DocumentView = Backbone.View.extend({
 		It creates a new selection view and annotation model and adds it to the collection */
 
 		// obtain user's text selection
-		var selection = document.getSelection();
-		var rangeObj = selection.getRangeAt(0);
+		var selection = document.getSelection(),
+		    range = selection.getRangeAt(0);
+
 
 		// only creates an annotation object if user's text selection length > 1
-		if (!rangeObj.collapsed) {
+		if (!range.collapsed) {
+
+			spanWrap = document.createElement('span');
+		    spanWrap.className = 'selection uncomplete';
+		    range.surroundContents(spanWrap);
 
 			// create Annotation model
 			var annotation = new Annotation({
-				selection: sel,
+				class: null,
 				text: null,
-				rangeObj: rangeObj,
-				startOffset: rangeObj.startOffset,
-				endOffset: rangeObj.endOffset,
+				docId: this.model.id,
 			});
 			// make EntryForm view's model temporarily the current annotation
-			hn.entryForm = new entryForm({model: annotation});
-
-			// // create a new text selection view to be added to the document
-			// var selection = new SelectionView({
-			// 	model: annotation
-			// });
+			hn.entryForm = new AnnotationEntryForm({model: annotation});
 		} 
+	},
+	removeAnnotation: function(e){
+		if (!e.id){
+			annotationClass = '.annotation-'+e.attributes.id
+			annotationSpan = $(annotationClass);
+			annotationSpan.replaceWith(annotationSpan.html());
+			this.save();
+		}
+	},
+	insertAnnotation: function(e) {
+		if (!e.id){
+			$('.uncomplete')[0].className = 'selection annotation-'+e.attributes.id;
+			this.save();
+		}
+	},
+
+	save: function(e) {
+		this.model.set({
+			html: this.$el.html()
+		});
+		this.model.save({html: this.$el.html()});
 	},
 });

@@ -3,17 +3,32 @@ var AnnotationListView = Backbone.View.extend({
 
 	el: $('.annotations-list'),
 
-	initialize: function(options){
-    		_.bindAll(this, 'appendAnnotation');
-        _.extend(this, options);
-    		this.collection.bind('add', this.appendAnnotation);
+  events: {
+    'click .delete': 'deleteAnnotation',
   },
 
-  appendAnnotation: function(annotation){
-  		var annotationView = new AnnotationView({
-  			model: annotation
-  		})
-  		// view is actually rendered via the newly created annotationView and its render function
-  		$(this.el).append(annotationView.render().el);
-  }
+	initialize: function(options){
+      _.extend(this, options);
+  		_.bindAll(this, 'render', 'deleteAnnotation');
+      this.listenTo(this.collection,'add', this.render);
+      // this.listenTo(this.collection,'remove', this.collection.sync);
+      this.collection.bind('remove', this.render);
+      this.collection.fetch();
+  },
+  render: function(){
+    var self = this;
+    self.$el.html('');
+    _.each(this.collection.models, function(el, i){
+        self.$el.append( // what is this here?
+          '<li class="annotation"><span>'+el.get('text')+'</span>'
+          +'<button class="btn delete" id="delete-'+el.get('_id')+'" style="margin-left: 10px;">'
+          +'<i class="icon-trash"></i></button></li>');
+    });
+  },
+
+  deleteAnnotation: function(e){
+    var id = e.currentTarget.id.slice(-2)
+    var model = this.collection.get(id);
+    model.destroy();
+  },
 });

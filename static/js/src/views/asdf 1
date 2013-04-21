@@ -1,0 +1,48 @@
+var View = {
+	events: {},
+	render: function(){
+		this.$el.html(this.$el.text()); 
+		_.each(this.collection.models, function(el, i){
+			var startOffset = el.get('startOffset'),
+				endOffset = el.get('length') + startOffset,
+				range = document.createRange(),
+				container = document.getElementById('doc-text');
+							// selection-XXXXXXXX
+			/*
+			console.log(startOffset);
+			console.log(endOffset);
+			*/
+			range.setStart(container.childNodes[0], startOffset);
+			range.setEnd(container.childNodes[0], endOffset);
+
+			var spanWrap = document.createElement('span');
+			spanWrap.className = 'selection '+el.get('class');
+			range.surroundContents(spanWrap);
+		});
+	},
+
+	createAnnotation: function(e) {
+		/* triggered when a user highlights text on the displayed document
+		It creates a new selection view and annotation model and adds it to the collection */
+
+		// obtain user's text selection
+		var selection = document.getSelection();
+		var rangeObj = selection.getRangeAt(0);
+		var container = e.currentTarget;
+		//document.getElementById('doc-text');
+		var containerRange = document.createRange();
+		containerRange.selectNodeContents(container);
+		containerRange.setEnd(rangeObj.startContainer, rangeObj.startOffset);
+		var containerOffset = containerRange.toString().length;
+		var sel_class = _.uniqueId('selection-');
+
+
+		// only creates an annotation object if user's text selection length > 1
+		if (!rangeObj.collapsed) {
+
+			// create Annotation model
+			var annotation = new Annotation({
+				class: sel_class,
+				startOffset: containerOffset,
+				length: selection.toString().length,
+				text: null,

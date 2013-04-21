@@ -23,11 +23,8 @@
     <div class="row-fluid" id="body-wrapper">
     <div class="doc">
       <h3>The Prince</h3>
-      <div class="doc-text">
-        {{document.text|safe}}
+      <div class="doc-text" id="doc-text">
       </div>
-    </div>
-    <div class="annotation-entry">
     </div>
     <div class="annotations">
       <h3>Annotations</h3>
@@ -35,6 +32,8 @@
       <ul class="annotations-list">
       </ul>
     </div>  
+    <div class="annotation-entry">
+    </div>
   </div>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
@@ -42,20 +41,25 @@
   <script src="http://ajax.cdnjs.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
   <script src="http://ajax.cdnjs.com/ajax/libs/backbone.js/1.0.0/backbone-min.js"></script>
   <script src="/static/js/src/models/annotationModel.js" type="text/javascript"></script>
+  <script src="/static/js/src/models/documentModel.js" type="text/javascript"></script>
   <script src="/static/js/src/collections/annotationCollection.js" type="text/javascript"></script>
   <script src="/static/js/src/views/annotationEntryForm.js" type="text/javascript"></script>
-  <script src="/static/js/src/views/annotationView.js" type="text/javascript"></script>
   <script src="/static/js/src/views/annotationListView.js" type="text/javascript"></script>
   <script src="/static/js/src/views/documentView.js" type="text/javascript"></script>
-  <script src="/static/js/src/views/selectionView.js" type="text/javascript"></script>
+<!--   // <script src="/static/js/src/views/selectionView.js" type="text/javascript"></script> -->
 
   <script type="text/javascript">
     var hn = hn || {};
     (function ($) {
-      hn.collection = new AnnotationCollection();
-      hn.listView = new AnnotationListView({collection: hn.annColl});
-      hn.docView = new DocumentView({collection: hn.annColl});
+      
+      hn.docModel = new Doc({id: 1});
+      hn.annotations = new AnnotationCollection({
+        id: 1
+      });
+      hn.listView = new AnnotationListView({collection: hn.annotations});
+      hn.docView = new DocumentView({collection: hn.annotations, model: hn.docModel});
     })(jQuery);
   </script>
+  <script src="/static/js/src/ajaxSetup.js" type="text/javascript"></script>
   </body>
 </html>

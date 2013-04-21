@@ -7,34 +7,51 @@ var AnnotationEntryForm = Backbone.View.extend({
 
 	events: {
 		'click .annotation-submit': 'submit',
-		'click .annotation-cancel': 'destroy'
+		'click .annotation-cancel': 'cancel'
 	},
 	initialize: function(){
-		_.bindAll(this, 'submit', 'cancel');
+		_.bindAll(this, 'render', 'submit', 'close', 'cancel');
 		this.render();
+		
 	},
 	render: function() {
-		$(this.el).show();
+		this.$el.show();
 		$('.annotations').hide();
-		$(this.el).html = "<h4>Create a new Annotation</h4>"+
+		this.$el.html("<h4>Create a new Annotation</h4>"+
       					  "<textarea rows=\"7\" cols=\"15\" id=\"textbox\">"+
       					  "</textarea><button class=\"btn annotation-submit\">"+
       					  "Submit</button><button class=\"btn annotation-cancel\">"+
-      					  "Cancel</button>";
+      					  "Cancel</button>");
+		// this.$el.find('textarea').focus();
 	},
-	destroy: function() {
-		$(this.el).hide();
-		$('.annotations').show();
-		this.undelegateEvents();
-		this.remove();
-	},
-
 	submit: function() {
 		// triggers the saving and rendering of the new annotation, and removes the model from this view
 		this.model.set({text: $('#textbox').val()});
-		hn.collection.add(this.model);
-		this.destroy();
+		this.model.save({},
+			{
+				success: function(model, response){
+					console.log("success");
+					hn.annotations.add(model);
+				}
+			});
+		this.close();
 	},
+
+	cancel: function(){
+		//pulls the highlighted span from the document
+		$('.uncomplete').contents().unwrap();
+		this.close();
+	},
+
+	close: function() {
+		this.$el
+		  .html("")
+	      .hide();
+		$('.annotations').show();
+		
+		this.undelegateEvents();
+	},
+
 
 /// completed -- probably isnt necessary 
 /// 
