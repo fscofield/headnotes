@@ -95,8 +95,15 @@ h4 {
 	position: fixed;
 }
 
+.tip {
+	color: rgb(80, 80, 80);
+	font-size: 13px;
+}
+
 .annotations-list {
-	margin: 0px;
+	margin: 12px 0 0 0;
+	float: left;
+	
 }
 
 .annotation {

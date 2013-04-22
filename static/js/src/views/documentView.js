@@ -14,7 +14,7 @@ var DocumentView = Backbone.View.extend({
 	   	// this.collection.on('add', this.insertAnnotation, this);
 	   	// this.collection.on('remove', this.removeAnnotation, this);
 	    this.listenTo(this.collection, 'add', this.insertAnnotation);
-	    // this.listenToOnce(this.collection, 'add', $('.tip').hide());
+	    // this.listenToOnce(this.collection, 'add', );
 	    this.listenTo(this.model,'change', this.render);
 	    this.model.fetch();
 	},
@@ -55,7 +55,7 @@ var DocumentView = Backbone.View.extend({
 	},
 	insertAnnotation: function(e) {
 		console.log(e);
-		$('.uncomplete').append('<a name="'+e.attributes._id+'"></a>');
+		$('.uncomplete').prepend('<a name="'+e.attributes._id+'"></a>');
 		$('.uncomplete')[0].className = 'selection annotation-'+e.attributes._id;
 		this.save();
 	},
