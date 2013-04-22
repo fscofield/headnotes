@@ -16,14 +16,10 @@ var DocumentView = Backbone.View.extend({
 	    this.listenTo(this.collection, 'add', this.insertAnnotation);
 	    this.listenTo(this.model,'change', this.render);
 	    this.model.fetch();
-
 	},
-
-
 	render: function(){
 		this.$el.html(this.model.get('html'));
 	},
-
 	createAnnotation: function() {
 		/* triggered when a user highlights text on the displayed document
 		It creates a new selection view and annotation model and adds it to the collection */
@@ -51,16 +47,16 @@ var DocumentView = Backbone.View.extend({
 		} 
 	},
 	removeAnnotation: function(e){
-		annotationClass = '.annotation-'+e.attributes.id
+		annotationClass = '.annotation-'+e.attributes._id;
 		annotationSpan = $(annotationClass);
 		annotationSpan.replaceWith(annotationSpan.html());
 		this.save();
 	},
 	insertAnnotation: function(e) {
-		$('.uncomplete')[0].className = 'selection annotation-'+e.attributes.id;
+		console.log(e);
+		$('.uncomplete')[0].className = 'selection annotation-'+e.attributes._id;
 		this.save();
 	},
-
 	save: function() {
 		this.model.set({
 			html: this.$el.html()

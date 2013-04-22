@@ -29,7 +29,8 @@
 }
 
 .selection {
-	background-color: rgb(180, 180, 180);
+	/*background-color: none;*/
+	background-color: rgb(255, 244, 162);
 }
 
 .selection:hover {

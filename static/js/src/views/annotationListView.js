@@ -25,9 +25,9 @@ var AnnotationListView = Backbone.View.extend({
           +'<i class="icon-trash"></i></button></li>');
     });
   },
-
   deleteAnnotation: function(e){
-    var id = e.currentTarget.id.split('-')[1]
+    var id = e.currentTarget.id.split('-')[1];
+    console.log(id);
     var model = this.collection.get(id);
     model.destroy();
   },
