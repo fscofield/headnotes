@@ -54,7 +54,7 @@ var DocumentView = Backbone.View.extend({
 	},
 	insertAnnotation: function(e) {
 		console.log(e);
-		// $('.uncomplete').append('<sup>1</sup>');
+		$('.uncomplete').append('<a name="'+e.attributes._id+'"></a>');
 		$('.uncomplete')[0].className = 'selection annotation-'+e.attributes._id;
 		this.save();
 	},
