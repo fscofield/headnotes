@@ -34,6 +34,7 @@ var AnnotationEntryForm = Backbone.View.extend({
 				}
 			});
 		this.close();
+		$('.tip').fadeOut("slow");
 	},
 	cancel: function(){
 		//pulls the highlighted span from the document

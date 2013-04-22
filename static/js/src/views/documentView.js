@@ -14,6 +14,7 @@ var DocumentView = Backbone.View.extend({
 	   	// this.collection.on('add', this.insertAnnotation, this);
 	   	// this.collection.on('remove', this.removeAnnotation, this);
 	    this.listenTo(this.collection, 'add', this.insertAnnotation);
+	    // this.listenToOnce(this.collection, 'add', $('.tip').hide());
 	    this.listenTo(this.model,'change', this.render);
 	    this.model.fetch();
 	},
