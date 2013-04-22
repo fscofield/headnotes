@@ -2,8 +2,8 @@ from django.contrib import admin
 from app.models import Document, Annotation
 
 class DocumentAdmin(admin.ModelAdmin):
-    list_display = ['name']
-    ordering = ['name']
+    list_display = ['id', 'title', 'author']
+    ordering = ['id']
 
 admin.site.register(Document, DocumentAdmin)
 

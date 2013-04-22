@@ -19,9 +19,9 @@ var AnnotationEntryForm = Backbone.View.extend({
 		$('.annotations').hide();
 		this.$el.html("<h4>Create a new Annotation</h4>"+
       					  "<textarea rows=\"7\" cols=\"15\" id=\"textbox\">"+
-      					  "</textarea><button class=\"btn annotation-submit\">"+
-      					  "Submit</button><button class=\"btn annotation-cancel\">"+
-      					  "Cancel</button>");
+      					  "</textarea><a class=\"button annotation-submit\">"+
+      					  "Submit</a><a class=\"button annotation-cancel\">"+
+      					  "Cancel</a>");
 		// this.$el.find('textarea').focus();
 	},
 	submit: function() {

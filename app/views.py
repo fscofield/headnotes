@@ -13,6 +13,7 @@ def index(request):
     
     t = loader.get_template('index.html')
     annotations = Annotation.objects.filter(doc_id=1)
+    document = Document.objects.get(id=1)
     resp_data = []
     for annotation in annotations:
         resp_data.append({
@@ -21,6 +22,7 @@ def index(request):
             })
     c = Context({
             'annotations' : json.dumps(resp_data),
+            'doc' : document,
         })
     return HttpResponse(t.render(c))
 

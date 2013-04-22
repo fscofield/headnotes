@@ -1,7 +1,11 @@
 from django.db import models
 
 class Document(models.Model):
-    name = models.CharField(max_length=100)
+    title = models.CharField(max_length=300)
+    author = models.CharField(max_length=100)
+    tagline = models.CharField(max_length=100)
+    publication = models.CharField(max_length=100)
+    date = models.CharField(max_length=100)
     text = models.TextField(blank=True)
     html = models.TextField(blank=True)
 

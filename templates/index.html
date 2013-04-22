@@ -5,24 +5,36 @@
     <title>{% block title %}Headnotes{% endblock %}</title>
 
     <!--  hair stylists  -->
-    <link href="/static/css/stylesheets.css" rel="stylesheet">
     <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/stylesheets.css" rel="stylesheet">
   </head>
   <body>
 
-<div class="navbar">
-  <div class="navbar-inner">
-    <a class="brand" href="#">Headnotes</a>
-    <ul class="nav">
-      <li class="active"><a href="#">Home</a></li>
-    </ul>
+  <div class="navbar-top">
+  <div class="container header-inner">
+    <a href="/"class="logo">Headnotes</a>
+    </div>
   </div>
-</div>
 
   <div class="container">
     <div class="row-fluid" id="body-wrapper">
-    <div class="doc">
-      <h3>The Prince</h3>
+    <div class="doc span7">
+      <h3>{{doc.title}}</h3>
+<!--       {% if doc.tagline %}
+      <span class="tagline">{{doc.tagline}}</span>
+      {% endif %} -->
+      <ul class="meta">
+        {% if doc.author %}
+        <li class="author">by {{ doc.author}}</li>
+        {% endif %}
+        {% if doc.author %}
+        <li class="publication">{{ doc.publication}}</li>
+        {% endif %}
+        {% if doc.date %}
+        <li class="date">{{ doc.date}}</li>
+        {% endif %}
+      </ul>
+
       <div class="doc-text" id="doc-text">
       </div>
     </div>
@@ -53,7 +65,9 @@
     var hn = hn || {};
     (function ($) {
       
-      hn.docModel = new Doc({id: 1});
+      hn.docModel = new Doc({
+        id: {{doc.id}}
+      });
       hn.annotations = new AnnotationCollection({});
       //creates new annotations collection from tempalted json data
       hn.annotations.reset({{annotations|safe}});

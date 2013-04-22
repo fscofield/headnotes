@@ -21,18 +21,23 @@ var AnnotationListView = Backbone.View.extend({
     self.$el.html('');
     _.each(this.collection.models, function(el, i){
         var id = el.id || el.get('id');
+            num = i+1;
         self.$el.append( // what is this here?
-          '<li class="annotation text-'+id+'"><span>'+el.get('text')+'</span>'
-          +'<button class="btn delete" id="delete-'+id+'" style="margin-left: 10px;">'
-          +'<i class="icon-trash"></i></button></li>');
+          '<li class="annotation text-'+id+'"><span class="count">'+num+'</span>'
+          +'<div class="text">'+el.get('text')
+          +'<a class="delete" id="delete-'+id+'">'
+          +'<i class="icon-trash"></i></a>'
+          +'</div></li>');
     });
   },
   focusAnnotation: function(e){
     var id = e.currentTarget.className.split('-')[1];
+    $('#delete-'+id).show();
     $('.annotation-'+id).css("text-decoration", "underline");
   },
   unfocusAnnotation: function(e){
     var id = e.currentTarget.className.split('-')[1];
+    $('#delete-'+id).hide();
     $('.annotation-'+id).css("text-decoration", "none");
   },
   deleteAnnotation: function(e){
