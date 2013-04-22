@@ -1,10 +1,8 @@
 body {
-	font-family: "proxima nova", sans serif;
+	font-family: "proxima nova", sans-serif;
 }
 
 .navbar-top {
-	/*border-bottom: solid 1px rgb(196, 196, 196);*/
-	/*border-top: solid 7px rgb(252, 247, 153);*/
 	height: 40px;
 	background-color: #fff;
 }
@@ -26,11 +24,6 @@ body {
 	text-decoration: none;
 
 }
-
-
-/*#body-wrapper {
-	margin-top: 20px;
-}*/
 
 .doc {
 	float: left;
@@ -79,7 +72,6 @@ h4 {
 
 
 .doc-text {
-	/*border-top: solid 1px rgb(195, 195, 195);*/
 	padding-top: 15px;
 	font-family: "adelle", Georgia, serif;
 	line-height: 28px;
@@ -111,8 +103,6 @@ h4 {
 	display: block;
 	margin-bottom: 15px;
 	float: left;
-	/*border-top: solid 1px rgb(200, 200, 200);
-	border-bottom: solid 1px rgb(200, 200, 200);*/
 }
 
 .count {
@@ -123,7 +113,6 @@ h4 {
 	font-size: 9px;
 	text-align: center;
 	padding-bottom: 2px;
-	/*margin-top: 3px;*/
 	width: 17px;
 	height: 15px;
 	-moz-border-radius: 2px;
@@ -145,14 +134,10 @@ h4 {
 }
 
 .annotation-entry textarea {
-	/*float: left;*/
 	rows: 15;
 	cols: 17;
 }
 
-.annotation-submit {
-	/*margin-right: 10px;*/
-}
 
 .button {
 	padding: 5px 10px 5px 10px;
@@ -178,12 +163,8 @@ h4 {
 	padding: 3px;
 }
 
-/*.delete:hover {
-	background-color: rgb(160, 30, 0);
-}
-*/
+
 .selection {
-	/*background-color: none;*/
 	background-color: rgb(255, 244, 162);
 }
 

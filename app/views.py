@@ -1,7 +1,8 @@
 from os import system
 # Django modules
+from django.core.context_processors import csrf
 from django.shortcuts import render_to_response, HttpResponse, get_object_or_404, redirect, render
-from django.views.decorators.csrf import requires_csrf_token, ensure_csrf_cookie, csrf_protect
+from django.views.decorators.csrf import requires_csrf_token, ensure_csrf_cookie, csrf_protect, csrf_exempt
 from django.template import Context, loader
 from django.core import serializers
 # project modules
@@ -24,10 +25,11 @@ def index(request):
             'annotations' : json.dumps(resp_data),
             'doc' : document,
         })
+    c.update(csrf(request))
     return HttpResponse(t.render(c))
 
-# @ensure_csrf_cookie
-@requires_csrf_token
+@ensure_csrf_cookie
+@csrf_exempt
 def documentApi(request, document_id):
     document = Document.objects.get(id=document_id)
     if request.method == "PUT":
@@ -42,7 +44,7 @@ def documentApi(request, document_id):
         return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
-@requires_csrf_token
+@csrf_exempt
 def collectionApi(request, collection_id):
     print "hello!"
     if request.method == "PUT":
@@ -59,7 +61,7 @@ def collectionApi(request, collection_id):
         return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
-@requires_csrf_token
+@csrf_exempt
 def annotationApi(request, annotation_id = None): 
     if request.method == "POST":
         json_annotation= json.loads(request.body)

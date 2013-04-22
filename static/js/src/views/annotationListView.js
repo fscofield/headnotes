@@ -22,7 +22,7 @@ var AnnotationListView = Backbone.View.extend({
     _.each(this.collection.models, function(el, i){
         var id = el.id || el.get('id');
             num = i+1;
-        self.$el.append( // what is this here?
+        self.$el.append( 
           '<li class="annotation text-'+id+'"><a href="#'+id+'"><span class="count">'+num+'</span></a>'
           +'<div class="text">'+el.get('text')
           +'<a class="delete" id="delete-'+id+'">'

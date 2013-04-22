@@ -22,7 +22,7 @@ var AnnotationEntryForm = Backbone.View.extend({
       					  "</textarea><a class=\"button annotation-submit\">"+
       					  "Submit</a><a class=\"button annotation-cancel\">"+
       					  "Cancel</a>");
-		// this.$el.find('textarea').focus();
+		this.$el.find('textarea').focus();
 	},
 	submit: function() {
 		// triggers the saving and rendering of the new annotation, and removes the model from this view
@@ -46,7 +46,6 @@ var AnnotationEntryForm = Backbone.View.extend({
 		  .html("")
 	      .hide();
 		$('.annotations').show();
-		
 		this.undelegateEvents();
 	},
 });
